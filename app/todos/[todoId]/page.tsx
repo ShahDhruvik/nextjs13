@@ -1,10 +1,13 @@
 import React from 'react'
 import { Todo } from '../../../typing'
+import { notFound } from 'next/navigation'
 type Pageprops = {
   params: {
     todoId: string
   }
 }
+
+const dynamicParams = true
 
 const fetchTodo = async (todoId: string) => {
   const res = await fetch(
@@ -17,6 +20,7 @@ const fetchTodo = async (todoId: string) => {
 
 async function TodoListPage({ params: { todoId } }: Pageprops) {
   const todo = await fetchTodo(todoId)
+  if (!todo.id) return notFound()
   return (
     <>
       <div className="my-5 mx-2">TodoListPage : {todoId}</div>
